@@ -1,6 +1,7 @@
 import argparse
 import binascii
 import struct
+import os
 from Crypto.Cipher import AES
 from construct import Struct, Int16ul, Padding, GreedyBytes
 
@@ -23,6 +24,10 @@ class QotaUnpackUnsupportedVersionException(Exception):
 
 
 class QotaUnpackWrongChecksumException(Exception):
+    pass
+
+
+class QotaUnpackInputAndOutputFilesMustBeDifferent(Exception):
     pass
 
 
@@ -65,6 +70,9 @@ def _verify_decrypted_data(decrypted_data):
 
 if __name__ == '__main__':
     args = _parse_args()
+
+    if os.path.exists(args.to) and os.path.samefile(args._from.name, args.to):
+        raise QotaUnpackInputAndOutputFilesMustBeDifferent()
 
     with args._from as encrypted_file:
         format_version_raw = encrypted_file.read(FORMAT_VERSION_SIZE)
