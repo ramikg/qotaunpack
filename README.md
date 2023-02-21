@@ -2,6 +2,8 @@
 
 A Python script for decrypting firmware encrypted using the _qotapack.exe_ utility from the QN902x SDK (previously QBlue SDK).
 
+A QN902x chip is used, for instance, in the Viomi Smart Kettle.
+
 ## Requirements
 
 - Python 3.6+
